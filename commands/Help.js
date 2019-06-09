@@ -5,18 +5,6 @@ class Help extends command{
 		super("help", "Trys to help :sweat_smile:", ["[command]"], true, false);
 	}
 
-	parse(parsedCommandName, params, msg, client) {
-		if(parsedCommandName == this.commandName){
-			console.log("help'ing");
-			this.action(params, msg, client);
-			return true;
-		}
-		else {
-			console.log("help failed");
-			return false;
-		}
-	}
-
 	action(params, msg, client) {
 		// If user is asking about a specific command
 		if(params.length > 0) {
