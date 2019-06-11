@@ -1,6 +1,6 @@
-let command = require("./command.js");
+let Command = require("./command.js");
 
-class Help extends command{
+class Help extends Command {
 	constructor(text){
 		super("help", "Trys to help :sweat_smile:", ["[command]"], true, false);
 	}
@@ -9,9 +9,9 @@ class Help extends command{
 		// If user is asking about a specific command
 		if(params.length > 0) {
 			if(Object.keys(client.commands).some(label => { return label == params[0] })) {
-				command = client.commands[params[0]];
+				let command = client.commands[params[0]];
 
-				msg.channel.send(`${msg.author}\n**Description**: ${command.desc}\n**Usage**: \`${command.commandName} ${command.params}\``);
+				msg.channel.send(command.genHelp(msg));
 			}
 			else {
 				msg.channel.send(`Cannot find command \`${params}\`, ${msg.author}`);

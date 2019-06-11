@@ -19,10 +19,8 @@ class Command {
 		}
 	}
 
-	genHelp(msg, cmd, desc, parameters) {
-		return `${msg.author}\n
-			**Description**: ${desc}\n
-			**Usage**: \`${cmd} ${parameters}\``;
+	genHelp(msg) {
+		return `${msg.author}\n**Description**: ${this.desc}\n**Usage**: \`${this.commandName} ${this.params.join(", ")}\``;
 	}
 
 	action(msg) {
