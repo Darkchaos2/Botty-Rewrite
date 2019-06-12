@@ -23,7 +23,7 @@ class Command {
 		return `${msg.author}\n**Description**: ${this.desc}\n**Usage**: \`${this.commandName} ${this.params.join(", ")}\``;
 	}
 
-	action(msg) {
+	action(params, msg, client) {
 		console.log(`${this.commandName} - null action`);
 		return false;
 	}

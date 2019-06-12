@@ -13,7 +13,7 @@ class NAME extends Command {
 		super()
 	}
 
-	action(msg) {
+	action(params, msg, client) {
 		// Do something
 	}
 }
