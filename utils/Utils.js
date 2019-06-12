@@ -29,43 +29,41 @@ class Util {
 		}
 	}
 	// Takes an array and returns a bubble sorted array
-	static sortArray(array) {
-		for (var i = 0; i < array.length; i++) {
-			for (var j = 0; j < (array.length - i - 1); j++) {
-				if(array[j].toLowerCase() > array[j + 1].toLowerCase()) {
-					var tmp = array[j];
-					array[j] = array[j + 1];
-					array[j + 1] = tmp;
-				}
-			}        
-		}
-		return array;
-	}
+	// static sortArray(array) {
+	// 	for (var i = 0; i < array.length; i++) {
+	// 		for (var j = 0; j < (array.length - i - 1); j++) {
+	// 			if(array[j].toLowerCase() > array[j + 1].toLowerCase()) {
+	// 				var tmp = array[j];
+	// 				array[j] = array[j + 1];
+	// 				array[j + 1] = tmp;
+	// 			}
+	// 		}        
+	// 	}
+	// 	return array;
+	// }
 
 	// Generates and returns a sorted list of roles in the server specified by settings.js
-	static genRoleList() {
-		list = [];
-		string = "**List of roles:**";
-		maxCalcRole = 0;
+	static genRoleList(msg, client) {
+		let list = [];
+		let string = "**List of roles:**";
 
-		for(const role of client.guilds.get(settings.guildID).me.roles.values()) {
-			if(maxCalcRole < role.calculatedPosition) maxCalcRole = role.calculatedPosition;
-		}
+		let guildRoles = msg.guild.roles.sort((first, second) => second.calculatedPosition - first.calculatedPosition);
+		let highestRole = msg.guild.me.highestRole;
 
-		for(i = 1; i < client.guilds.get(settings.guildID).roles.array().length; i++) { // starts at 1 to remove the @everyone role. Discord has changed, reordering the roles so ive change it to a 0 now.
-			if((client.guilds.get(settings.guildID).roles.array()[i].calculatedPosition < maxCalcRole) && client.guilds.get(settings.guildID).roles.array()[i].calculatedPosition != 0) { // calculatedPosition == @everyone
-				list[list.length] = client.guilds.get(settings.guildID).roles.array()[i].name;
-				//string += "\n`" + client.guilds.get(settings.guildID).roles.array()[i].name + "`";
+		for(let role of guildRoles.values()) {
+			if(role.calculatedPosition == 0) // calculatedPosition == @everyone
+				continue; 
+
+			if(role.calculatedPosition < highestRole.calculatedPosition) {
+				list.push(role);
 			}
 		}
-		list = sortArray(list);
-		for(var i = 0; i < list.length; i++) {
-			string += "\n`" + list[i] + "`";
+
+		for(let role of list.values()) {
+			string += "\n`" + role.name + "`";
 		}
+
 		return string;
-	}
-	// Generates and returns a help list of all public and non-hidden commands found in settings.js 
-	static genHelpList() {
 	}
 	// Takes a reason for updating, updates the bot description in the bot channel then logs the reason for updating
 	static updateDesc(reason) {

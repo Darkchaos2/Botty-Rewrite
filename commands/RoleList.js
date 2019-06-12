@@ -1,12 +1,13 @@
-let command = require("./command.js");
+const Utils = require('../utils/Utils.js');
+let command = require('./command.js');
 
 class RoleList extends command{
-	constructor(text){
-		super("rolelist", "Returns a list of all roles", [], true, false);
+	constructor(){
+		super('rolelist', 'Returns a list of all roles', [], true, false);
 	}
 
 	action(params, msg, client) {
-		msg.channel.send("list roles or somthing");
+		msg.channel.send(Utils.genRoleList(msg, client));
 	}
 }
 
