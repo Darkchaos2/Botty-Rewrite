@@ -5,6 +5,7 @@ class CommandManager {
 		this.register(require('./Help.js'));
 		this.register(require('./RoleList.js'));
 		this.register(require('./RoleAdd.js'));
+		this.register(require('./RoleRemove.js'));
 	}
 
 	register(command) {

@@ -8,9 +8,13 @@ class Util {
 		let parsed = {};
 		let split = string.split(" ");
 
+		// Command
 		parsed["command"] = split[0];
+
+		// Parameters
 		split.shift(0);
-		parsed["params"] = split;
+		string = split.join(' ');
+		parsed["params"] = string.split(", ").filter(x => x != "");
 
 		return parsed;
 	}
@@ -104,7 +108,7 @@ class Util {
 
 	// TODO: STATES - State implementation
 	// Takes a role name, a collection of roles, a state to change the user to after autocorrect, the author (member) to change the state of and a boolean for wheather the function should return a question string and
-	static autocorrect(needle, haystack, poststate, author, returnString) {
+	static autocorrect(needle, haystack, poststate, author) {
 		// role name to search for, collection of roles, state to change to after autocorrect, autor to change state of, if function shoudl return role or question containing role
 		let roleEdit = "";
 		let count = [];
@@ -140,18 +144,8 @@ class Util {
 		console.log(countMax);
 		console.log(0.8 * haystack.array()[countMaxIndex].name.length);
 
-		if(returnString) {
-			if(countMaxIndex > 0) {
-				// STATES
-				// changeState(poststate, haystack.array()[countMaxIndex], author);
-				return(`(${poststate == 1 ? "Assign" : (poststate == 2 ? "Remove" : "")}) Did you mean: \`${haystack.array()[countMaxIndex].name}\`, ${author}? (yes/no)`);
-			}
-			else return(`Cannot find \`${needle}\`, ${author}`);
-		}
-		else {
-			if(countMaxIndex > 0) return(haystack.array()[countMaxIndex]);
-			else return(null)
-		}
+		if(countMaxIndex > 0) return(haystack.array()[countMaxIndex]);
+		else return null;
 	}
 }
 
