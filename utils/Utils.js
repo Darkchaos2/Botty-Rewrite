@@ -102,22 +102,25 @@ class Util {
 		return msgChannel.send(str);
 	}
 
+	// TODO: STATES - State implementation
 	// Takes a role name, a collection of roles, a state to change the user to after autocorrect, the author (member) to change the state of and a boolean for wheather the function should return a question string and
 	static autocorrect(needle, haystack, poststate, author, returnString) {
 		// role name to search for, collection of roles, state to change to after autocorrect, autor to change state of, if function shoudl return role or question containing role
-		roleEdit = "";
-		count = [];
-		countMax = 0;
-		countMaxIndex = 0;
-		needle = needle.toLowerCase();
-		states.find(e => {return e.id == author.id}).reset(); 
+		let roleEdit = "";
+		let count = [];
+		let countMax = 0;
+		let countMaxIndex = 0;
+		// STATES
+		// let states.find(e => {return e.id == author.id}).reset();
 
-		for(j = 0; j < haystack.array().length; j++) {
+		needle = needle.toLowerCase();
+
+		for(let j = 0; j < haystack.array().length; j++) {
 			count[j] = 0;
 			roleEdit = haystack.array()[j].name.toLowerCase();
-			for(i = 0; i < needle.length; i++) {
+			for(let i = 0; i < needle.length; i++) {
 				if(roleEdit.indexOf(needle[i]) != -1) {
-					temp = roleEdit.substring(roleEdit.indexOf(needle[i]) + 1, roleEdit.length);
+					let temp = roleEdit.substring(roleEdit.indexOf(needle[i]) + 1, roleEdit.length);
 					roleEdit = roleEdit.substring(0, roleEdit.indexOf(needle[i]));
 					roleEdit += temp
 					count[j]++
@@ -139,7 +142,8 @@ class Util {
 
 		if(returnString) {
 			if(countMaxIndex > 0) {
-				changeState(poststate, haystack.array()[countMaxIndex], author);
+				// STATES
+				// changeState(poststate, haystack.array()[countMaxIndex], author);
 				return(`(${poststate == 1 ? "Assign" : (poststate == 2 ? "Remove" : "")}) Did you mean: \`${haystack.array()[countMaxIndex].name}\`, ${author}? (yes/no)`);
 			}
 			else return(`Cannot find \`${needle}\`, ${author}`);

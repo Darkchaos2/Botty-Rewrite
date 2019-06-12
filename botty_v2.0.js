@@ -2,9 +2,17 @@ const Discord = require('discord.js');
 
 const botDetails = require('./settings/botDetails.js');
 const CommandManager = require('./commands/CommandManager.js');
-const Util = require('./util/Util.js');
+const Utils = require('./utils/Utils.js');
 
 const client = new Discord.Client();
+
+/* Discord.js colletion method overloads */
+Discord.Collection.prototype.findLc = function(propOrFn, value) {
+	for(const prop of this.values()) {
+		prop.name = prop.name.toLowerCase();
+	}
+	return this.find(propOrFn, value.toLowerCase());
+}
 
 class Botv2 {
 	constructor() {
@@ -20,7 +28,7 @@ class Botv2 {
 			if(msg.author.bot)
 				return;
 
-			let parsed = Util.parseCommand(msg.content);
+			let parsed = Utils.parseCommand(msg.content);
 
 			for(var label in this.commands) {
 				let command = this.commands[label];
