@@ -3,7 +3,7 @@ let Command = require("./command.js");
 
 class RoleAdd extends Command {
 	constructor(text){
-		super("roleadd", "Assigns a game role(s) to your user.", ["role1 [role2 role3 role4...]"], true, false);
+		super("roleadd", "Assigns a game role(s) to your user.", ["role1", "[role2 role3 role4...]"], true, false);
 	}
 
 	action(params, msg, client) {

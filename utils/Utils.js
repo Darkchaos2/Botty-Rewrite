@@ -87,21 +87,6 @@ class Util {
 	}
 	// Takes a log (array) from the changelog.js file and a boolean for if all bugs should be listed and returns the log in a Discord/user freindly format
 	static changelogdisplay(log, all) {
-		str = "";
-		for(var prop in log) {
-			if((prop == "bugs" && all == false) || prop == "isNotPublic") continue;
-			str += "**" + prop + "**" + ": ";
-			if(Array.isArray(log[prop])) {
-				for(j = 0; j < log[prop].length; j++) {
-					str += "\n    " + log[prop][j] + (j != log[prop].length - 1 ? "," : "");
-				}
-			}
-			else {
-				str += log[prop];
-			}
-			str += "\n"
-		}
-		return msgChannel.send(str);
 	}
 
 	// TODO: STATES - State implementation

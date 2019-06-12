@@ -5,6 +5,8 @@ class Command {
 		this.params = params;
 		this.commandPublic = commandPublic;
 		this.hidden = hidden;
+
+		console.log(`Command loaded: ${commandName}`);
 	}
 
 	parse(commandName, params, msg, client) {
@@ -14,13 +16,13 @@ class Command {
 			return true;
 		}
 		else {
-			console.log(`${this.commandName} failed`);
+			// console.log(`${this.commandName} failed`);
 			return false;
 		}
 	}
 
 	genHelp(msg) {
-		return `${msg.author}\n**Description**: ${this.desc}\n**Usage**: \`${this.commandName} ${this.params.join(", ")}\``;
+		return `${msg.author}\n**Description**: ${this.desc}\n**Usage**: \`${this.commandName} ${this.params.join(" ")}\``;
 	}
 
 	action(params, msg, client) {

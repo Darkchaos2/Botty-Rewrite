@@ -3,7 +3,7 @@ let Command = require("./command.js");
 
 class RoleRemove extends Command {
 	constructor(text){
-		super("roleremove", "Removes a game role(s) to your user.", ["role1 [role2 role3 role4...]"], true, false);
+		super("roleremove", "Removes a game role(s) to your user.", ["role1", "[role2 role3 role4...]"], true, false);
 	}
 
 	action(params, msg, client) {

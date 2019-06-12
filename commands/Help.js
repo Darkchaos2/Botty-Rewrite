@@ -22,7 +22,7 @@ class Help extends Command {
 			let str = "**List of spells**:\n";
 
 			Object.values(client.commands).forEach(command => {
-				command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(", ")}\`\n` : "";
+				command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(" ")}\`\n` : "";
 			});
 
 			str += "e.g. roleadd Overwatch, Minecraft";

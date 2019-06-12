@@ -1,0 +1,5 @@
+add all commands
+add states
+add public / hidden logic
+add settings
+add savedmessage perma storage

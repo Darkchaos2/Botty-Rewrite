@@ -26,7 +26,6 @@ class Botv2 {
 		});
 
 		client.on('message', msg => {
-			console.log(this.savedMessages);
 			// If there is no stated reason to keep message, delete it after x milliseconds
 			// Couldn't use msg.delete(x) as logic is needed directly before deletion, not when deletion is queued
 			setTimeout(() => {

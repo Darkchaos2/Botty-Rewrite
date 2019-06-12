@@ -15,8 +15,6 @@ class Say extends Command {
 		msg.channel.send(params.join(", "))
 		.then(response => {
 			client.savedMessages.push(response.id);
-			console.log(response.id);
-			console.log(client.savedMessages);
 		});
 
 		msg.delete();
