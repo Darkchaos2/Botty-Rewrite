@@ -3,7 +3,11 @@ const Utils = require('../utils/Utils.js');
 
 class RoleAdd extends Command {
 	constructor(text){
-		super("roleadd", "Assigns a game role(s) to your user.", ["role1", "[role2 role3 role4...]"], true, false);
+		super("roleadd", "Assigns a game role(s) to your user.", ["role1", "[, role2[, role3[, ...]]]"], true, false);
+	}
+
+	customParse(params) {
+		return params.join(" ").split(", ").filter(x => x != "");
 	}
 
 	action(params, msg, client) {
@@ -12,6 +16,8 @@ class RoleAdd extends Command {
 			msg.channel.send(this.genHelp(msg));
 			return;
 		}
+
+		params = this.customParse(params);
 
 		// If roles are given, try assigning given roles
 		let promises = [];

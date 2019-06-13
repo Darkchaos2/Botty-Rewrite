@@ -13,8 +13,7 @@ class Util {
 
 		// Parameters
 		split.shift(0);
-		string = split.join(' ');
-		parsed["params"] = string.split(", ").filter(x => x != "");
+		parsed["params"] = split;
 
 		return parsed;
 	}

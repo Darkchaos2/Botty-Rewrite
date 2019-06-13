@@ -3,7 +3,11 @@ let Command = require("./command.js");
 
 class RoleRemove extends Command {
 	constructor(text){
-		super("roleremove", "Removes a game role(s) to your user.", ["role1", "[role2 role3 role4...]"], true, false);
+		super("roleremove", "Removes a game role(s) to your user.", ["role1", "[, role2[, role3[, ...]]]"], true, false);
+	}
+
+	customParse(params) {
+		return params.join(" ").split(", ").filter(x => x != "");
 	}
 
 	action(params, msg, client) {
@@ -12,6 +16,8 @@ class RoleRemove extends Command {
 			msg.channel.send(this.genHelp(msg));
 			return;
 		}
+
+		params = this.customParse(params);
 
 		// If roles are given, try removing given roles
 		let promises = [];

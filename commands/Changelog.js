@@ -13,7 +13,7 @@ class ChangeLog extends Command {
 
 		// Parses and removes the all modifier
 		if(params.indexOf("-all") > -1) {
-			params = params.filter(param => { param != "-all" });
+			params = params.filter(param => param != "-all" );
 			all = true;
 		}
 
@@ -26,7 +26,7 @@ class ChangeLog extends Command {
 			msg.channel.send(this.genChangeLog(changelog.changes[index], all));
 		}
 		// If parameter is a version number, find log for that version
-		else if(changelog.changes.find(log => {return log.version == index})) {
+		else if(changelog.changes.find(log => log.version == index )) {
 			msg.channel.send(this.genChangeLog(changelog.changes.find(log => {return log.version == index}), all));
 		}
 		else {

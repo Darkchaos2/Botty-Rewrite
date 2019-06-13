@@ -17,16 +17,17 @@ const startingMessage = fs.readFileSync('./settings/description.txt', 'utf-8');
 // Activity types: PLAYING, STREAMING, LISTENING, WATCHING
 const activityType = ['playing', 'streaming', 'listening', 'watching'];
 
-// DISCORD
+// INSTANCES
 const client = new Discord.Client();
+let generalLogger = new Logger('./logs/log.txt');
+
+// OVERRIDES
 Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	for(const prop of this.values()) {
 		prop.name = prop.name.toLowerCase();
 	}
 	return this.find(propOrFn, value.toLowerCase());
 }
-
-let generalLogger = new Logger('./logs/log.txt');
 
 class Botv2 {
 	constructor() {
