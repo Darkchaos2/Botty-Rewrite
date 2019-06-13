@@ -29,12 +29,15 @@ Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	return this.find(propOrFn, value.toLowerCase());
 }
 
+if(!config.GuildDetails.savedMessageIDs)
+	config.GuildDetails.savedMessageIDs = [];
+
 class Botv2 {
 	constructor() {
 		this.commands = new CommandManager();
 
 		client.on('ready', () => {
-			generalLogger.Log('Botty Restarted')
+			generalLogger.Log('Restarted')
 
 			// Set activity based on preferences
 			client.user.setActivity(config.Preferences.activity, { type: activityType[config.Preferences.activityType]});
@@ -43,7 +46,7 @@ class Botv2 {
 			this.ClearBotChannel();
 			this.updateDesc('Reboot');
 
-			console.log("ready");
+			console.log("Ready");
 		});
 		
 		// Role changes
@@ -63,7 +66,7 @@ class Botv2 {
 			// If there is no stated reason to keep message, delete it after x milliseconds
 			// Couldn't use msg.delete(x) as logic is needed directly before deletion, not when deletion is queued
 			setTimeout(() => {
-				if(config.GuildDetails.savedMessageIDs.indexOf(msg.id) < 0) {
+				if(config.GuildDetails.savedMessageIDs.indexOf(msg.id) < 0 && msg.id != config.GuildDetails.startingMessageID) {
 					msg.delete()
 					.catch(err => console.log(err.message));
 				}
@@ -122,7 +125,6 @@ class Botv2 {
 
 		Promise.all(promises)
 		.then(() => {
-			console.log(config);
 			this.SaveConfig();
 		});
 	}
@@ -143,7 +145,7 @@ class Botv2 {
 
 		client.channels.get(config.GuildDetails.botChannelID).fetchMessage(config.GuildDetails.startingMessageID)
 		.then(message => message.edit(eval('`' + startingMessage + '`')))
-		.then(msg => generalLogger.Log(`Botty Description Updated`, reason))
+		.then(msg => generalLogger.Log(`Description Updated`, reason))
 		.catch(console.error);
 	}
 

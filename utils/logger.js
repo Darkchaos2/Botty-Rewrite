@@ -11,9 +11,7 @@ class Logger {
 		if(desc)
 			str += `: ${desc}`;
 
-		str += `\n`;
-
-		fs.appendFile(this.file, str, err => console.log(str));
+		fs.appendFile(this.file, str + `\n`, err => console.log(str));
 	}
 }
 

@@ -7,7 +7,6 @@ Oh... Well I'm going to explain anyway because I'm a nice guy :smiley:. Below, y
 Type these spells into the text box below and see the magic do its thing!
 
 ${Utils.genHelpList(this)}
-
 If you're unsure on what a spell does, type help before it for its description and usage. :smile:
 
 ${Utils.genRoleList(client.channels.get(config.GuildDetails.botChannelID).guild)}
