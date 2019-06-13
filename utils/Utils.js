@@ -53,13 +53,13 @@ class Util {
 	}
 
 	static genHelpList(client) {
-		let str = "**List of spells**:\n";
+		let str = "**List of spells**:\n*[...] = optional parameter*\n";
 
 		Object.values(client.commands).forEach(command => {
 			command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(" ")}\`\n` : "";
 		});
 
-		str += "e.g. roleadd Overwatch, Minecraft";
+		str += "**Example**: roleadd Overwatch, Minecraft";
 
 		return str;
 	}

@@ -13,6 +13,8 @@ class Init extends Command {
 			client.SetBotChannel(response.channel.id);
 			client.SetStartMessage(response.id);
 			client.SaveConfig();
+
+			msg.delete();
 			msg.channel.stopTyping();
 		});
 
