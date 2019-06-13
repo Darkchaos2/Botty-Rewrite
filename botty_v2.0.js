@@ -1,9 +1,16 @@
+// Dependencies
 const Discord = require('discord.js');
-
-const botDetails = require('./settings/botDetails.js');
+const fs = require('fs');
+const ini = require('ini');
+// Objects
 const CommandManager = require('./commands/CommandManager.js');
 const Utils = require('./utils/Utils.js');
 
+// Settings
+const botDetails = require('./settings/botDetails.js');
+const config = ini.parse(fs.readFileSync('./settings/config.ini', 'utf-8'));
+
+// Instance
 const client = new Discord.Client();
 
 /* Discord.js colletion method overloads */
@@ -14,14 +21,18 @@ Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	return this.find(propOrFn, value.toLowerCase());
 }
 
+// Activity types: PLAYING, STREAMING, LISTENING, WATCHING
+const activityType = ['playing', 'streaming', 'listening', 'watching'];
+
 class Botv2 {
 	constructor() {
-		// this.commands = new CommandManager().commands;
 		this.commands = new CommandManager();
 		// TODO: make perma storage
 		this.savedMessages = [];
 
 		client.on('ready', () => {
+			client.user.setActivity(config.Preferences.activity, { type: activityType[config.Preferences.activityType]});
+
 			console.log("ready");
 		});
 
@@ -52,6 +63,10 @@ class Botv2 {
 		});
 
 		this.login();
+	}
+
+	getConfig() {
+		return config;
 	}
 
 	login() {

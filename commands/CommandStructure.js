@@ -14,6 +14,12 @@ class NAME extends Command {
 	}
 
 	action(params, msg, client) {
+		// If no role has been given, remind user how to use command
+		if(params.length < 1) {
+			msg.channel.send(this.genHelp(msg));
+			return;
+		}
+
 		// Do something
 	}
 }
