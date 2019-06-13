@@ -1,4 +1,5 @@
-let Command = require("./command.js");
+const Command = require("./command.js");
+const Utils = require('../utils/Utils.js');
 
 class Help extends Command {
 	constructor(text){
@@ -19,15 +20,7 @@ class Help extends Command {
 		}
 		// If user need general help
 		else {
-			let str = "**List of spells**:\n";
-
-			Object.values(client.commands).forEach(command => {
-				command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(" ")}\`\n` : "";
-			});
-
-			str += "e.g. roleadd Overwatch, Minecraft";
-
-			msg.channel.send(str);
+			msg.channel.send(Utils.genHelpList(client));
 		}
 	}
 }

@@ -1,14 +1,15 @@
-"**Greetings!** I am ${client.user.username}. Welcome to the LSUCS automation channel! " +
-"This channel is filled with magical Discord dust harvested straight from the majestic fruits of Discordia. \n" +
-"\"*So what is so special about this dust?*\" did I hear you excitingly cry at your beautiful 16k ULTRA MEGA HD 70\" display with an built in RGB stand, gently fading between 6792.25 million colours? \n" +
-"\n" +
-"No?\n" + 
-"Oh... Well I'm going to explain anyway because I'm a nice guy :smiley:. Below, you will see the list of spells that the magical Discordian dust will react to. " +
-"Type these spells into the text box below and see the magic do its thing!\n" +
-"\n" +
-"${genHelpList()}\n" +
-"\n" +
-"If you're unsure on what a spell does, type it in for its description and usage. :smile:\n" + 
-"${genRoleList()}\n" +
-"\n" +
-"Also, don't worry about making a mess in this channel! I'm very tidy and will clean up after you. :smile:";
+**Greetings!** I am ${client.user.username}. Welcome to the LSUCS automation channel!
+This channel is filled with magical Discord dust harvested straight from the majestic fruits of Discordia.
+*"So what is so special about this dust?"* did I hear you excitingly cry at your beautiful 16k ULTRA MEGA HD 70\" display with an built in RGB stand, gently fading between 6792.25 million colours?
+
+No?
+Oh... Well I'm going to explain anyway because I'm a nice guy :smiley:. Below, you will see the list of spells that the magical Discordian dust will react to.
+Type these spells into the text box below and see the magic do its thing!
+
+${Utils.genHelpList(this)}
+
+If you're unsure on what a spell does, type help before it for its description and usage. :smile:
+
+${Utils.genRoleList(client.channels.get(config.GuildDetails.botChannelID).guild)}
+
+Also, don't worry about making a mess in this channel! I'm very tidy and will clean up after you. :smile:

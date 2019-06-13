@@ -7,7 +7,7 @@ class RoleList extends command{
 	}
 
 	action(params, msg, client) {
-		msg.channel.send(Utils.genRoleList(msg, client));
+		msg.channel.send(Utils.genRoleList(msg.guild));
 	}
 }
 

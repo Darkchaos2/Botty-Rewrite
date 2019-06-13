@@ -1,5 +1,5 @@
+const Command = require("./command.js");
 const Utils = require('../utils/Utils.js');
-let Command = require("./command.js");
 
 class RoleAdd extends Command {
 	constructor(text){

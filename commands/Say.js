@@ -14,7 +14,8 @@ class Say extends Command {
 
 		msg.channel.send(params.join(", "))
 		.then(response => {
-			client.savedMessages.push(response.id);
+			if(msg.channel.id == client.GetConfig().GuildDetails.botChannelID)
+				client.SaveMessage(response.id);
 		});
 
 		msg.delete();

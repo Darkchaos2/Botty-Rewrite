@@ -10,6 +10,7 @@ class CommandManager {
 		this.register(require('./Say.js'));
 		this.register(require('./Changelog.js'));
 		this.register(require('./Report.js'));
+		this.register(require('./Init.js'));
 	}
 
 	register(command) {

@@ -28,27 +28,14 @@ class Util {
 			return "`" + temp.join("`, `") + "` and `" + last + "`";
 		}
 	}
-	// Takes an array and returns a bubble sorted array
-	// static sortArray(array) {
-	// 	for (var i = 0; i < array.length; i++) {
-	// 		for (var j = 0; j < (array.length - i - 1); j++) {
-	// 			if(array[j].toLowerCase() > array[j + 1].toLowerCase()) {
-	// 				var tmp = array[j];
-	// 				array[j] = array[j + 1];
-	// 				array[j + 1] = tmp;
-	// 			}
-	// 		}        
-	// 	}
-	// 	return array;
-	// }
 
 	// Generates and returns a sorted list of roles in the server specified by settings.js
-	static genRoleList(msg, client) {
+	static genRoleList(guild) {
 		let list = [];
 		let string = "**List of roles:**";
 
-		let guildRoles = msg.guild.roles.sort((first, second) => second.calculatedPosition - first.calculatedPosition);
-		let highestRole = msg.guild.me.highestRole;
+		let guildRoles = guild.roles.sort((first, second) => second.calculatedPosition - first.calculatedPosition);
+		let highestRole = guild.me.highestRole;
 
 		for(let role of guildRoles.values()) {
 			if(role.calculatedPosition == 0) // calculatedPosition == @everyone
@@ -65,28 +52,17 @@ class Util {
 
 		return string;
 	}
-	// Takes a reason for updating, updates the bot description in the bot channel then logs the reason for updating
-	static updateDesc(reason) {
-		client.channels.get(settings.botChannelIDs[0]).fetchMessage(settings.descriptionMessageID)
-		.then(message => message.edit(eval("`" + settings.botDescription + "`")))
-		.then(msg => fs.appendFile("logs/log.txt", `Botty Description Updated - ${reason}\n`, log => console.log(`Botty Description Updated: ${reason}`)))
-		.catch(console.error);
-	}
-	// Unfinished function
-	// The plan was to have a description of each game so when a user only enters the role (game), it will send the description and ask if the user would want it assigned.
-	// This has been replaced by just assigning the role to the user
-	static createGameDesc(role) {
-		str = "";
-		/*for(var game in settings.games) {
-			if (role == settings.games[game].name) {
-				str = `${settings.games[game].desc}\n`;
-				break;
-			}
-		}*/
-		return(``);
-	}
-	// Takes a log (array) from the changelog.js file and a boolean for if all bugs should be listed and returns the log in a Discord/user freindly format
-	static changelogdisplay(log, all) {
+
+	static genHelpList(client) {
+		let str = "**List of spells**:\n";
+
+		Object.values(client.commands).forEach(command => {
+			command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(" ")}\`\n` : "";
+		});
+
+		str += "e.g. roleadd Overwatch, Minecraft";
+
+		return str;
 	}
 
 	// TODO: STATES - State implementation
@@ -118,10 +94,6 @@ class Util {
 				}
 			}
 		}
-
-		/*for(j = 0; j < haystack.array().length; j++) {
-			console.log(haystack.array()[j].name + " - " + count[j])
-		}*/
 		
 		countMax < 0.8 * haystack.array()[countMaxIndex].name.length ? countMaxIndex = 0 : "";
 		console.log(countMax);
