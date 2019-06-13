@@ -51,14 +51,14 @@ class Botv2 {
 		
 		// Role changes
 		client.on('roleCreate', role => {
-			this.updateDesc(`${role} - ${role.name} created`);
+			this.updateDesc(`${role} ${role.name} created`);
 		});
 		client.on('roleDelete', role => {
-			this.updateDesc(`${role} - ${role.name} deleted`);
+			this.updateDesc(`${role} ${role.name} deleted`);
 		});
 		client.on('roleUpdate', (oldRole, newRole) => {
 			if(oldRole.name != newRole.name) {
-				this.updateDesc(`${oldRole} - ${oldRole.name} changed to ${newRole} - ${newRole.name}`);
+				this.updateDesc(`${oldRole} ${oldRole.name} => ${newRole}${newRole.name}`);
 			}
 		});
 
@@ -91,6 +91,8 @@ class Botv2 {
 		if(msg.author.bot) {
 			return;
 		}
+
+		generalLogger.Log(`Command parsed`, `${msg.author} ${msg.author.username} - ${msg.content}`);
 
 		let parsed = Utils.parseCommand(msg.content);
 		for(var label in this.commands) {
