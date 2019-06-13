@@ -63,31 +63,43 @@ class Botv2 {
 		});
 
 		client.on('message', msg => {
-			// If there is no stated reason to keep message, delete it after x milliseconds
-			// Couldn't use msg.delete(x) as logic is needed directly before deletion, not when deletion is queued
-			setTimeout(() => {
-				if(config.GuildDetails.savedMessageIDs.indexOf(msg.id) < 0 && msg.id != config.GuildDetails.startingMessageID) {
-					msg.delete()
-					.catch(err => console.log(err.message));
-				}
-			}, 10000);
+			if(msg.channel.id == config.GuildDetails.botChannelID) {
+				Utils.parseOutPrefix(msg, config.Preferences.prefix);
 
-			// Ignore messages by bots
-			if(msg.author.bot) {
-				return;
+				// If not saved, delete after x milliseconds
+				setTimeout(() => {
+					if(config.GuildDetails.savedMessageIDs.indexOf(msg.id) < 0 && msg.id != config.GuildDetails.startingMessageID) {
+						// Couldn't use msg.delete(x) as logic is needed directly before deletion, not when deletion is queued
+						msg.delete()
+						.catch(err => console.log(err.message));
+					}
+				}, 10000);
+
+				this.DoCommand(msg);
 			}
-
-			let parsed = Utils.parseCommand(msg.content);
-			for(var label in this.commands) {
-				let command = this.commands[label];
-
-				if(command.parse(parsed.command, parsed.params, msg, this)) {
-					break;
-				}
+			else if(msg.content.startsWith(config.Preferences.prefix)) {
+				Utils.parseOutPrefix(msg, config.Preferences.prefix);
+				this.DoCommand(msg);
 			}
 		});
 
 		this.login();
+	}
+
+	DoCommand(msg) {
+		// Ignore messages by bots
+		if(msg.author.bot) {
+			return;
+		}
+
+		let parsed = Utils.parseCommand(msg.content);
+		for(var label in this.commands) {
+			let command = this.commands[label];
+
+			if(command.parse(parsed.command, parsed.params, msg, this)) {
+				break;
+			}
+		}
 	}
 
 	// Config

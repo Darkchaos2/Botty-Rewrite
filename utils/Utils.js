@@ -3,6 +3,12 @@ class Util {
     	throw new Error(`The ${this.constructor.name} class may not be instantiated.`);
     }
 
+    static parseOutPrefix(msg, prefix) {
+		if(msg.content.startsWith(prefix)) {
+			msg.content = msg.content.substring(prefix.length);
+		}
+    }
+
     // Splits the input string based upon space's and returns the first word seperatly to the rest
 	static parseCommand(string) {
 		let parsed = {};
