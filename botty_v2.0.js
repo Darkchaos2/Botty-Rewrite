@@ -1,20 +1,24 @@
-// Dependencies
+// EXTERNAL DEPENDENCIES
 const Discord = require('discord.js');
 const fs = require('fs');
 const ini = require('ini');
-// Objects
+
+// INETERNAL DEPENDENCIES
 const CommandManager = require('./commands/CommandManager.js');
 const Utils = require('./utils/Utils.js');
+const Logger = require('./utils/Logger.js');
 
-// Settings
+// SETTINGS
 const botDetails = require('./settings/botDetails.js');
 let config = ini.parse(fs.readFileSync('./settings/config.ini', 'utf-8'));
 const startingMessage = fs.readFileSync('./settings/description.txt', 'utf-8');
 
-// Instance
-const client = new Discord.Client();
+// DATA
+// Activity types: PLAYING, STREAMING, LISTENING, WATCHING
+const activityType = ['playing', 'streaming', 'listening', 'watching'];
 
-/* Discord.js colletion method overloads */
+// DISCORD
+const client = new Discord.Client();
 Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	for(const prop of this.values()) {
 		prop.name = prop.name.toLowerCase();
@@ -22,14 +26,15 @@ Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	return this.find(propOrFn, value.toLowerCase());
 }
 
-// Activity types: PLAYING, STREAMING, LISTENING, WATCHING
-const activityType = ['playing', 'streaming', 'listening', 'watching'];
+let generalLogger = new Logger('./logs/log.txt');
 
 class Botv2 {
 	constructor() {
 		this.commands = new CommandManager();
 
 		client.on('ready', () => {
+			generalLogger.Log('Botty Restarted')
+
 			// Set activity based on preferences
 			client.user.setActivity(config.Preferences.activity, { type: activityType[config.Preferences.activityType]});
 
@@ -137,7 +142,7 @@ class Botv2 {
 
 		client.channels.get(config.GuildDetails.botChannelID).fetchMessage(config.GuildDetails.startingMessageID)
 		.then(message => message.edit(eval('`' + startingMessage + '`')))
-		.then(msg => fs.appendFile("logs/log.txt", `Botty Description Updated - ${reason}\n`, log => console.log(`Botty Description Updated: ${reason}`)))
+		.then(msg => generalLogger.Log(`Botty Description Updated`, reason))
 		.catch(console.error);
 	}
 
