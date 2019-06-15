@@ -11,6 +11,12 @@ class Command {
 
 	parse(commandName, params, msg, client) {
 		if(commandName == this.commandName){
+			if(!this.commandPublic && !msg.member.hasPermission('ADMINISTRATOR')) {
+				console.log(`${this.commandName} - invalid permissions`);
+				msg.channel.send(`You do not have permission to use this command, ${msg.author}`);
+				return false;
+			}
+
 			console.log(`${this.commandName}'ing`);
 			this.action(params, msg, client);
 			return true;
@@ -27,6 +33,7 @@ class Command {
 
 	action(params, msg, client) {
 		console.log(`${this.commandName} - null action`);
+		msg.channel.send(`There is no action currently assigned to this command, ${msg.author}`);
 		return false;
 	}
 }

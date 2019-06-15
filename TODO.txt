@@ -1,4 +1,3 @@
 add all commands
 add states
-add public / hidden logic
 add test bot compatibility??
