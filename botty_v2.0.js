@@ -12,8 +12,8 @@ const VGSMember = require('./objects/lsucs_member.js')
 
 // SETTINGS
 const botDetails = require('./settings/botDetails.js');
-let config = ini.parse(fs.readFileSync('./settings/config.ini', 'utf-8'));
-const startingMessage = fs.readFileSync('./settings/description.txt', 'utf-8');
+let config;
+let startingMessage;
 
 // DATA
 // Activity types: PLAYING, STREAMING, LISTENING, WATCHING
@@ -33,8 +33,13 @@ Discord.Collection.prototype.findLc = function(propOrFn, value) {
 	return this.find(propOrFn, value.toLowerCase());
 }
 
-if(!config.GuildDetails.savedMessageIDs)
-	config.GuildDetails.savedMessageIDs = [];
+function LoadConfig() {
+	config = ini.parse(fs.readFileSync('./settings/config.ini', 'utf-8'));
+
+	if(!config.GuildDetails.savedMessageIDs)
+		config.GuildDetails.savedMessageIDs = [];
+}
+
 
 class Botv2 {
 	constructor() {
@@ -48,21 +53,21 @@ class Botv2 {
 
 			this.UpdateSavedMessages();
 			this.ClearBotChannel();
-			this.updateDesc('Reboot');
+			this.UpdateDesc('Reboot');
 
 			console.log("Ready");
 		});
 		
 		// Role changes
 		client.on('roleCreate', role => {
-			this.updateDesc(`${role} ${role.name} created`);
+			this.UpdateDesc(`${role} ${role.name} created`);
 		});
 		client.on('roleDelete', role => {
-			this.updateDesc(`${role} ${role.name} deleted`);
+			this.UpdateDesc(`${role} ${role.name} deleted`);
 		});
 		client.on('roleUpdate', (oldRole, newRole) => {
 			if(oldRole.name != newRole.name) {
-				this.updateDesc(`${oldRole} ${oldRole.name} => ${newRole}${newRole.name}`);
+				this.UpdateDesc(`${oldRole} ${oldRole.name} => ${newRole}${newRole.name}`);
 			}
 		});
 
@@ -107,6 +112,9 @@ class Botv2 {
 	}
 
 	// Config
+	LoadConfig() {
+		LoadConfig();
+	}
 	GetConfig() {
 		return config;
 	}
@@ -155,9 +163,11 @@ class Botv2 {
 	sendDesc(channel) {
 		return channel.send(eval('`' + startingMessage + '`'));
 	}
-	updateDesc(reason) {
+	UpdateDesc(reason) {
 		if(!config.GuildDetails.startingMessageID)
 			return;
+
+		startingMessage = fs.readFileSync('./settings/description.txt', 'utf-8');
 
 		client.channels.get(config.GuildDetails.botChannelID).fetchMessage(config.GuildDetails.startingMessageID)
 		.then(message => message.edit(eval('`' + startingMessage + '`')))
@@ -185,4 +195,5 @@ class Botv2 {
 	}
 }
 
+LoadConfig();
 let bot = new Botv2();
