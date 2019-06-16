@@ -91,7 +91,7 @@ class Botv2 {
 
 			// If there is no user data, create new user data
 			if(!this.userStates[msg.author.id])
-				this.userStates[msg.author.id] = new VGSMember(msg.author.id, msg.author.username, 'default', null);
+				this.userStates[msg.author.id] = new VGSMember(msg.author.id, msg.author.username, 'default', null, config.Preferences.userStateTimeoutLength);
 
 			generalLogger.Log(`Command parsed`, `${msg.author} ${msg.author.username} - ${msg.content}`);
 

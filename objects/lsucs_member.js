@@ -1,11 +1,12 @@
 class LSUVGS {
-	constructor(id, username, state, data) {
+	constructor(id, username, state, data, timeoutLength) {
 		this.id = id;
 		this.username = username;
 		this.state = state;
 		this.data = data;
 		this.timeoutStatus = 0;
 		this.requestTimeout = 0;
+		this.timeoutLength = timeoutLength;
 	}
 
 	Reset() {
@@ -15,7 +16,10 @@ class LSUVGS {
 	}
 
 	Timeout() {
-		this.requestTimeout = setTimeout(function() {this.timeoutStatus = 1; console.log("expired");}, 60000);
+		this.requestTimeout = setTimeout(() => {
+			this.timeoutStatus = 1;
+			console.log("expired");
+		}, this.timeoutLength);
 	}
 
 	OnNewMessage() {
