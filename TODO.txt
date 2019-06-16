@@ -1,3 +1,2 @@
 add all commands
-add states
 add test bot compatibility??
