@@ -21,10 +21,11 @@ class CommandManager {
 		for(let label in this) {
 			let command = this[label];
 
-			if(command.parse(parsed.command, parsed.params, msg, client)) {
-				break;
-			}
+			if(command.parse(parsed.command, parsed.params, msg, client))
+				return;
 		}
+
+		msg.channel.send(`${msg.author} Unknown command. Please refer to the instructions or use the \`help\` command.`);
 	}
 }
 
