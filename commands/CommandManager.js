@@ -11,6 +11,7 @@ class CommandManager {
 		this.register(require('./Report.js'));
 		this.register(require('./Suggest.js'));
 		this.register(require('./Update.js'));
+		this.register(require('./Restart.js'));
 	}
 
 	register(command) {
