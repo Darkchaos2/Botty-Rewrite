@@ -1,5 +1,6 @@
 class CommandManager {
-	constructor(){
+	constructor() {
+		this.register(require('./Init.js'));
 		this.register(require('./Help.js'));
 		this.register(require('./RoleList.js'));
 		this.register(require('./RoleAdd.js'));
@@ -8,7 +9,7 @@ class CommandManager {
 		this.register(require('./Say.js'));
 		this.register(require('./Changelog.js'));
 		this.register(require('./Report.js'));
-		this.register(require('./Init.js'));
+		this.register(require('./Suggest.js'));
 	}
 
 	register(command) {
