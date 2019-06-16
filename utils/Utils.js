@@ -6,7 +6,9 @@ class Util {
     static parseOutPrefix(msg, prefix) {
 		if(msg.content.startsWith(prefix)) {
 			msg.content = msg.content.substring(prefix.length);
+			return true;
 		}
+		return false;
     }
 
     // Splits the input string based upon space's and returns the first word seperatly to the rest
@@ -58,10 +60,10 @@ class Util {
 		return string;
 	}
 
-	static genHelpList(client) {
+	static genHelpList(commands) {
 		let str = "**List of spells**:\n*[...] = optional parameter*\n";
 
-		Object.values(client.commands).forEach(command => {
+		Object.values(commands).forEach(command => {
 			command.commandPublic && !command.hidden ? str += `- \`${command.commandName} ${command.params.join(" ")}\`\n` : "";
 		});
 
@@ -70,16 +72,14 @@ class Util {
 		return str;
 	}
 
-	// TODO: STATES - State implementation
 	// Takes a role name, a collection of roles, a state to change the user to after autocorrect, the author (member) to change the state of and a boolean for wheather the function should return a question string and
-	static autocorrect(needle, haystack, poststate, author) {
+	static autocorrect(needle, haystack, vgsMember, poststate, author) {
 		// role name to search for, collection of roles, state to change to after autocorrect, autor to change state of, if function shoudl return role or question containing role
 		let roleEdit = "";
 		let count = [];
 		let countMax = 0;
 		let countMaxIndex = 0;
-		// STATES
-		// let states.find(e => {return e.id == author.id}).reset();
+		vgsMember.Reset();
 
 		needle = needle.toLowerCase();
 
@@ -104,7 +104,10 @@ class Util {
 		console.log(countMax);
 		console.log(0.8 * haystack.array()[countMaxIndex].name.length);
 
-		if(countMaxIndex > 0) return(haystack.array()[countMaxIndex]);
+		if(countMaxIndex > 0) {
+			vgsMember.ChangeState(poststate, haystack.array()[countMaxIndex]);
+			return haystack.array()[countMaxIndex];
+		}
 		else return null;
 	}
 }

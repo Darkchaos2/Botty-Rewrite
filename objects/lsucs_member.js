@@ -1,25 +1,36 @@
-function Lsucs(id, username, state, data) {
-	var thislsucs = this;
-	thislsucs.id = id;
-	thislsucs.username = username;
-	thislsucs.state = state;
-	thislsucs.data = data;
-	thislsucs.timeoutStatus = 0;
-	thislsucs.requestTimeout = 0;
-
-	thislsucs.reset = function() {
-		thislsucs.state = 0;
-		thislsucs.data = null;
-		thislsucs.timeoutStatus = 0;
+class LSUVGS {
+	constructor(id, username, state, data) {
+		this.id = id;
+		this.username = username;
+		this.state = state;
+		this.data = data;
+		this.timeoutStatus = 0;
+		this.requestTimeout = 0;
 	}
-	thislsucs.timeout = function() {
-		thislsucs.requestTimeout = setTimeout(function() {thislsucs.timeoutStatus = 1; console.log("expired");}, 60000);
+
+	Reset() {
+		this.state = 'default';
+		this.data = null;
+		this.timeoutStatus = 0;
+	}
+
+	Timeout() {
+		this.requestTimeout = setTimeout(function() {this.timeoutStatus = 1; console.log("expired");}, 60000);
+	}
+
+	OnNewMessage() {
+		// If there is a pending timeout for the user, cancel it.
+		if (this.requestTimeout && this.timeoutStatus == 0) {
+			clearTimeout(this.requestTimeout);
+			this.requestTimeout = 0;
+		}
+	}
+
+	ChangeState(poststate, data) {
+		this.state = poststate;
+		data != null ? this.data = data : "";
+		this.Timeout();
 	}
 }
 
-Discord.Collection.prototype.findLc = function(propOrFn, value) {
-	for(const prop of this.values()) {
-		prop.name = prop.name.toLowerCase();
-	}
-	return this.find(propOrFn, value.toLowerCase());
-}
+module.exports = LSUVGS

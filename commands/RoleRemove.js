@@ -71,7 +71,7 @@ class RoleRemove extends Command {
 			}
 			// If user gave more than one role, be more consice in the reponse
 			else {
-				msg.channel.send(this.genCompressedResponse(roleSuccess, roleFail, roleMissingPerm, roleNotFound, msg, client));
+				msg.channel.send(this.genCompressedResponse(roleSuccess, roleFail, roleMissingPerm, roleNotFound, msg));
 			}
 		});
 	}
@@ -80,7 +80,7 @@ class RoleRemove extends Command {
 		let autoCorrectedRole = null;
 
 		if(notFound.length > 0) {
-			autoCorrectedRole = Utils.autocorrect(notFound[0], msg.guild.roles, 1, msg.author);
+			autoCorrectedRole = Utils.autocorrect(notFound[0], msg.guild.roles, client.userStates[msg.author.id], 'removerole', msg.author);
 		}
 
 		return (
@@ -91,7 +91,7 @@ class RoleRemove extends Command {
 		);
 	}
 
-	genCompressedResponse(succ, fail, missPerm, notFound, msg, client) {
+	genCompressedResponse(succ, fail, missPerm, notFound, msg) {
 		return (
 			msg.author + "\n" +
 			(succ.length != 0 ? Utils.toSentence(succ) + " successfully removed.\n" : "") +

@@ -5,8 +5,10 @@ const ini = require('ini');
 
 // INETERNAL DEPENDENCIES
 const CommandManager = require('./commands/CommandManager.js');
+const StateManager = require('./states/StateManager.js');
 const Utils = require('./utils/Utils.js');
 const Logger = require('./utils/Logger.js');
+const VGSMember = require('./objects/lsucs_member.js')
 
 // SETTINGS
 const botDetails = require('./settings/botDetails.js');
@@ -20,6 +22,8 @@ const activityType = ['playing', 'streaming', 'listening', 'watching'];
 // INSTANCES
 const client = new Discord.Client();
 let generalLogger = new Logger('./logs/log.txt');
+let commands = new CommandManager();
+let states = new StateManager();
 
 // OVERRIDES
 Discord.Collection.prototype.findLc = function(propOrFn, value) {
@@ -34,7 +38,7 @@ if(!config.GuildDetails.savedMessageIDs)
 
 class Botv2 {
 	constructor() {
-		this.commands = new CommandManager();
+		this.userStates = {};
 
 		client.on('ready', () => {
 			generalLogger.Log('Restarted')
@@ -63,9 +67,13 @@ class Botv2 {
 		});
 
 		client.on('message', msg => {
-			if(msg.channel.id == config.GuildDetails.botChannelID) {
-				Utils.parseOutPrefix(msg, config.Preferences.prefix);
+			// If user hasn't used a command (in any channel) and they are not in the bot channel, ignore
+			if(!Utils.parseOutPrefix(msg, config.Preferences.prefix) && msg.channel.id != config.GuildDetails.botChannelID) {
+				return;
+			}
 
+			// If in bot channel, clean channel
+			if(msg.channel.id == config.GuildDetails.botChannelID) {
 				// If not saved, delete after x milliseconds
 				setTimeout(() => {
 					if(config.GuildDetails.savedMessageIDs.indexOf(msg.id) < 0 && msg.id != config.GuildDetails.startingMessageID) {
@@ -74,34 +82,28 @@ class Botv2 {
 						.catch(err => console.log(err.message));
 					}
 				}, 10000);
-
-				this.DoCommand(msg);
 			}
-			else if(msg.content.startsWith(config.Preferences.prefix)) {
-				Utils.parseOutPrefix(msg, config.Preferences.prefix);
-				this.DoCommand(msg);
+
+			// Don't parse messages by bots
+			if(msg.author.bot) {
+				return;
+			}
+
+			// If there is no user data, create new user data
+			if(!this.userStates[msg.author.id])
+				this.userStates[msg.author.id] = new VGSMember(msg.author.id, msg.author.username, 'default', null);
+
+			generalLogger.Log(`Command parsed`, `${msg.author} ${msg.author.username} - ${msg.content}`);
+
+			this.userStates[msg.author.id].OnNewMessage();
+
+			// If current returns false (user ignores their current state), do default state
+			if(!states[this.userStates[msg.author.id].state].Action(this.userStates[msg.author.id], msg, commands, this)) {
+				states['default'].Action(this.userStates[msg.author.id], msg, commands, this);
 			}
 		});
 
 		this.login();
-	}
-
-	DoCommand(msg) {
-		// Ignore messages by bots
-		if(msg.author.bot) {
-			return;
-		}
-
-		generalLogger.Log(`Command parsed`, `${msg.author} ${msg.author.username} - ${msg.content}`);
-
-		let parsed = Utils.parseCommand(msg.content);
-		for(var label in this.commands) {
-			let command = this.commands[label];
-
-			if(command.parse(parsed.command, parsed.params, msg, this)) {
-				break;
-			}
-		}
 	}
 
 	// Config

@@ -6,7 +6,7 @@ No?
 Oh... Well I'm going to explain anyway because I'm a nice guy :smiley:. Below, you will see the list of spells that the magical Discordian dust will react to.
 Type these spells into the text box below and see the magic do its thing!
 
-${Utils.genHelpList(this)}
+${Utils.genHelpList(commands)}
 If you're unsure on what a spell does, type help before it for its description and usage. :smile:
 
 ${Utils.genRoleList(client.channels.get(config.GuildDetails.botChannelID).guild)}
