@@ -2,7 +2,7 @@ let Command = require("./command.js");
 
 class Say extends Command {
 	constructor(text){
-		super("say", "Repeats what ever you say as Botty.", [], false, true);
+		super("say", "Repeats what ever you say as Botty.", ['message'], false, true);
 	}
 
 	action(params, msg, client) {
