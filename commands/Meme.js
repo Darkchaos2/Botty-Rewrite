@@ -15,7 +15,7 @@ class NAME extends Command {
 			msg.channel.send(`:thinking: ${msg.author}!`);
 		
 		else if	(msg.content.indexOf("who is the best vice technical officer") > -1 || msg.content.indexOf("who is the best vto") > -1)
-			msg.channel.send(`It's a close one but I must say @Darkchaos has to be up there, ${msg.author}!`);
+			msg.channel.send(`It's a close one but I must say Darkchaos has to be up there, ${msg.author}!`);
 		
 		else if	(msg.content.indexOf("don't don't kill your self") > -1 || msg.content.indexOf("don't don't kill yourself") > -1) 
 			msg.channel.send(`Well that's not very nice, ${msg.author}. :sob:`);
