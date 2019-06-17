@@ -21,10 +21,9 @@ class Command {
 			this.action(params, msg, client);
 			return true;
 		}
-		else {
-			// console.log(`${this.commandName} failed`);
-			return false;
-		}
+
+		// console.log(`${this.commandName} failed`);
+		return false;
 	}
 
 	genHelp(msg) {

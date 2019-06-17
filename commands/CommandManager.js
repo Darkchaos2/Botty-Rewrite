@@ -1,3 +1,5 @@
+const Utils = require('../utils/Utils.js');
+
 class CommandManager {
 	constructor() {
 		this.register(require('./Init.js'));
@@ -14,6 +16,7 @@ class CommandManager {
 		this.register(require('./Restart.js'));
 		this.register(require('./React.js'));
 		this.register(require('./ReactList.js'));
+		this.register(require('./Meme.js'));
 	}
 
 	register(command) {
@@ -26,6 +29,20 @@ class CommandManager {
 
 			if(command.parse(parsed.command, parsed.params, msg, client))
 				return;
+		}
+
+		let guildRoleAutoCorrect = Utils.autocorrect(msg.content, msg.member.roles, client.userStates[msg.author.id]);
+		if(guildRoleAutoCorrect) {
+			msg.channel.send(`(Remove) Did you mean \`${guildRoleAutoCorrect.name}\`, ${msg.author}?`);
+			client.userStates[msg.author.id].ChangeState('removerole', guildRoleAutoCorrect);
+			return;
+		}
+
+		let memberRoleAutoCorrect = Utils.autocorrect(msg.content, msg.member.roles, client.userStates[msg.author.id]);
+		if(memberRoleAutoCorrect) {
+			msg.channel.send(`(Remove) Did you mean \`${memberRoleAutoCorrect.name}\`, ${msg.author}?`);
+			client.userStates[msg.author.id].ChangeState('removerole', memberRoleAutoCorrect);
+			return;
 		}
 
 		msg.channel.send(`${msg.author} Unknown command. Please refer to the instructions or use the \`help\` command.`);

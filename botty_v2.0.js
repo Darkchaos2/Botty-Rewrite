@@ -1,3 +1,7 @@
+// Add bot to server, replace [botid] with the bot id. Make sure you have the correct permissions to invite a bot.
+// https://discordapp.com/oauth2/authorize?client_id=[botid]&scope=bot&permissions=0
+// go here: https://discordapi.com/permissions.html
+
 // EXTERNAL DEPENDENCIES
 const Discord = require('discord.js');
 const fs = require('fs');

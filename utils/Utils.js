@@ -73,10 +73,10 @@ class Util {
 	}
 
 	// Takes a role name, a collection of roles, a state to change the user to after autocorrect, the author (member) to change the state of and a boolean for wheather the function should return a question string and
-	static autocorrect(needle, haystack, vgsMember, poststate, author) {
-		// role name to search for, collection of roles, state to change to after autocorrect, autor to change state of, if function shoudl return role or question containing role
+	static autocorrect(needle, haystack, vgsMember) {
+		// role name to search for, collection of roles
 		let roleEdit = "";
-		let count = [];
+		let count = {};
 		let countMax = 0;
 		let countMaxIndex = 0;
 		vgsMember.Reset();
@@ -100,15 +100,14 @@ class Util {
 			}
 		}
 		
-		countMax < 0.8 * haystack.array()[countMaxIndex].name.length ? countMaxIndex = 0 : "";
+		if(countMax < 0.8 * haystack.array()[countMaxIndex].name.length)
+			countMaxIndex = 0;
+
 		console.log(countMax);
 		console.log(0.8 * haystack.array()[countMaxIndex].name.length);
 
-		if(countMaxIndex > 0) {
-			vgsMember.ChangeState(poststate, haystack.array()[countMaxIndex]);
-			return haystack.array()[countMaxIndex];
-		}
-		else return null;
+		if(countMaxIndex > 0) 	return haystack.array()[countMaxIndex];
+		else 					return null;
 	}
 }
 
