@@ -2,7 +2,7 @@ let Command = require("./command.js");
 
 class React extends Command {
 	constructor(text){
-		super('react', 'Temporality reacts to the previous message, allowing the user to react', ['Emoji_name'], true, false);
+		super('react', 'Temporality reacts to the previous message, allowing the user to react', ['emoji_name'], true, false);
 	}
 
 	customParse(params) {
