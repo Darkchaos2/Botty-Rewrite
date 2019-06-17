@@ -31,10 +31,37 @@ class CommandManager {
 				return;
 		}
 
+		let memberRole = msg.member.roles.find(role => role.name == msg.content)
+		if(memberRole) {
+			msg.member.removeRole(memberRole)
+			.then(guildMember => {
+				msg.channel.send(`Removed \`${msg.content}\` from ${msg.author}`)
+			})
+			.catch(err => {
+				msg.channel.send(`I'm sorry, ${msg.author}. I'm afraid I can't do that.\nPlease contact a member of committee if you wish to be assigned this role.`);
+			});
+
+			return;
+		}
+		
+		let guildRole = msg.guild.roles.find(role => role.name == msg.content)
+		if(guildRole) {
+			msg.member.addRole(guildRole)
+			.then(guildMember => {
+				msg.channel.send(`Assigned \`${msg.content}\` to ${msg.author}`);
+			})
+			.catch(err => {
+				msg.channel.send(`I'm sorry, ${msg.author}. I'm afraid I can't do that.\nPlease contact a member of committee if you wish this role to be removed.`);
+			});
+
+			return;
+		}
+
 		let guildRoleAutoCorrect = Utils.autocorrect(msg.content, msg.member.roles, client.userStates[msg.author.id]);
 		if(guildRoleAutoCorrect) {
 			msg.channel.send(`(Remove) Did you mean \`${guildRoleAutoCorrect.name}\`, ${msg.author}?`);
 			client.userStates[msg.author.id].ChangeState('removerole', guildRoleAutoCorrect);
+
 			return;
 		}
 
@@ -42,6 +69,7 @@ class CommandManager {
 		if(memberRoleAutoCorrect) {
 			msg.channel.send(`(Remove) Did you mean \`${memberRoleAutoCorrect.name}\`, ${msg.author}?`);
 			client.userStates[msg.author.id].ChangeState('removerole', memberRoleAutoCorrect);
+
 			return;
 		}
 

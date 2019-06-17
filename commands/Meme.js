@@ -74,38 +74,8 @@ class NAME extends Command {
 		else if(msg.content.indexOf("perfectly functional") > -1) 
 			msg.channel.send("**Unexpected error occured**\n" + ["TypeError: Invalid arguments", "SyntaxError: Unexpected `perfectly`", "InternalError: Too much recursion", "ReferenceError: `chair_for_april_2017` is not defined", "ReferenceError: `mvx` is not defined", "ReferenceError: Cannot find a more important role than `gaming_officer` in `kareems_notebook`", "RangeError: Invalid array length"][Math.floor(Math.random() * 5)] + ":" + Math.floor(Math.random() * 500));
 		
-		else if(msg.content.indexOf("do you know de wey") > -1 || msgContent.indexOf("do you know the way") > -1 || msgContent.indexOf("do you know the wey") > -1 ) 
+		else if(msg.content.indexOf("do you know de wey") > -1 || msg.content.indexOf("do you know the way") > -1 || msg.content.indexOf("do you know the wey") > -1 ) 
 			msg.channel.send("I cannot tell you de wey as you are not one with the *Devil*\n\n**Remaining requirements:\n**" + ["Find de Queen", "Level 10 Ebola", "Split on the non-believers", "Recruit 100 brudas"][Math.floor(Math.random() * 3)]);
-		
-		else if(msgMember.roles.findLc("name", msgContent)) {
-			/*
-			msg.channel.send(`${createGameDesc(msgContent)}Would you like to assign \`${msgContent}\`?, ${msg.author} (yes/no)`);
-			changeState(1, msg.guild.roles.findLc("name", msgContent), msg.author);*/
-			msgMember.removeRole(msg.guild.roles.findLc("name", msgContent))
-			.then(guildMember => {
-				
-			msg.channel.send(`Removed \`${msgContent}\` from ${msg.author}`)
-			})
-			.catch(err => {
-				
-			msg.channel.send(`I'm sorry, ${msg.author}. I'm afraid I can't do that.\nPlease contact a member of committee if you wish to be assigned this role.`);
-			});
-		}
-		
-		else if(msg.guild.roles.findLc("name", msgContent)) {
-			/*
-			msg.channel.send(`${createGameDesc(msgContent)}Would you like to assign \`${msgContent}\`?, ${msg.author} (yes/no)`);
-			changeState(1, msg.guild.roles.findLc("name", msgContent), msg.author);*/
-			msgMember.addRole(msg.guild.roles.findLc("name", msgContent))
-			.then(guildMember => {
-				
-			msg.channel.send(`Assigned \`${msgContent}\` to ${msg.author}`);
-			})
-			.catch(err => {
-				
-			msg.channel.send(`I'm sorry, ${msg.author}. I'm afraid I can't do that.\nPlease contact a member of committee if you wish this role to be removed.`);
-			});
-		}
 		
 		else {
 			// console.log(`${this.commandName} failed`);

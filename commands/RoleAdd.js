@@ -83,7 +83,7 @@ class RoleAdd extends Command {
 			autoCorrectedRole = Utils.autocorrect(notFound[0], msg.guild.roles, client.userStates[msg.author.id]);
 
 			if(autoCorrectedRole)
-				vgsMember.ChangeState('addrole', autoCorrectedRole);
+				client.userStates[msg.author.id].ChangeState('addrole', autoCorrectedRole);
 		}
 
 		return (

@@ -83,7 +83,7 @@ class RoleRemove extends Command {
 			autoCorrectedRole = Utils.autocorrect(notFound[0], msg.guild.roles, client.userStates[msg.author.id]);
 
 			if(autoCorrectedRole)
-				vgsMember.ChangeState('removerole', autoCorrectedRole);
+				client.userStates[msg.author.id].ChangeState('removerole', autoCorrectedRole);
 		}
 
 		return (
