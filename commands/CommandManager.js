@@ -13,6 +13,7 @@ class CommandManager {
 		this.register(require('./Update.js'));
 		this.register(require('./Restart.js'));
 		this.register(require('./React.js'));
+		this.register(require('./ReactList.js'));
 	}
 
 	register(command) {
