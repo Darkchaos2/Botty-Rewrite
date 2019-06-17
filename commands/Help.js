@@ -20,7 +20,7 @@ class Help extends Command {
 		}
 		// If user need general help
 		else {
-			msg.channel.send(Utils.genHelpList(client));
+			msg.channel.send(Utils.genHelpList(client.commands));
 		}
 	}
 }

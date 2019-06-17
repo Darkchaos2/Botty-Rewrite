@@ -23,20 +23,7 @@ let startingMessage;
 // Activity types: PLAYING, STREAMING, LISTENING, WATCHING
 const activityType = ['playing', 'streaming', 'listening', 'watching'];
 
-// INSTANCES
-const client = new Discord.Client();
-let generalLogger = new Logger('./logs/log.txt');
-let commands = new CommandManager();
-let states = new StateManager();
-
-// OVERRIDES
-Discord.Collection.prototype.findLc = function(propOrFn, value) {
-	for(const prop of this.values()) {
-		prop.name = prop.name.toLowerCase();
-	}
-	return this.find(propOrFn, value.toLowerCase());
-}
-
+// FUNCTIONS
 function LoadConfig() {
 	config = ini.parse(fs.readFileSync('./settings/config.ini', 'utf-8'));
 
@@ -44,10 +31,10 @@ function LoadConfig() {
 		config.GuildDetails.savedMessageIDs = [];
 }
 
-
 class Botv2 {
 	constructor() {
 		this.userStates = {};
+		this.commands = new CommandManager();
 
 		client.on('ready', () => {
 			generalLogger.Log('Restarted')
@@ -107,8 +94,8 @@ class Botv2 {
 			this.userStates[msg.author.id].OnNewMessage();
 
 			// If current returns false (user ignores their current state), do default state
-			if(!states[this.userStates[msg.author.id].state].Action(this.userStates[msg.author.id], msg, commands, this)) {
-				states['default'].Action(this.userStates[msg.author.id], msg, commands, this);
+			if(!states[this.userStates[msg.author.id].state].Action(this.userStates[msg.author.id], msg, this.commands, this)) {
+				states['default'].Action(this.userStates[msg.author.id], msg, this.commands, this);
 			}
 		});
 
@@ -198,6 +185,10 @@ class Botv2 {
 		});
 	}
 }
+
+const client = new Discord.Client();
+let generalLogger = new Logger('./logs/log.txt');
+let states = new StateManager();
 
 LoadConfig();
 let bot = new Botv2();
